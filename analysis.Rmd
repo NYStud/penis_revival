@@ -2,6 +2,7 @@
 title: "Word Penis Data… Again"
 author: "Lukas"
 date: "Rendered `r format(Sys.time(), '%F %H:%M')`"
+output:
   html_document:
     toc: true
     toc_float: true
@@ -13,7 +14,7 @@ date: "Rendered `r format(Sys.time(), '%F %H:%M')`"
       after_body: _footer.html
 ---
 
-```{r setup}
+```{r setup, include=F}
 source("setup.R")
 ```
 
