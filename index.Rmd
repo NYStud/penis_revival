@@ -7,8 +7,8 @@ output:
     toc: true
     toc_float: true
     highlight: tango
-    fig_width: 10
-    fig_height: 7
+    fig_width: 9
+    fig_height: 6
     theme: yeti
     code_folding: show
     lib_dir: "assets"
@@ -41,7 +41,8 @@ penis %>%
     geom_histogram(binwidth = 1, alpha = .7, position = "dodge") +
     scale_x_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
     labs(title = "World Penis Data", subtitle = "Length by State",
-         x = "Length (cm)", y = "Frequency", fill = "State", color = "State")
+         x = "Length (cm)", y = "Frequency", fill = "State", color = "State") +
+    theme(legend.position = "top")
   }
 ```
 
@@ -62,7 +63,8 @@ penis %>%
     scale_y_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
     labs(title = "World Penis Data", subtitle = "Length by State",
          x = "Region", y = "Length (cm)", fill = "State", color = "State") +
-    theme(axis.text.y = element_text(size = rel(1.5)))
+    theme(axis.text.y = element_text(size = rel(1.2)),
+          legend.position = "top")
   }
 ```
 
@@ -81,7 +83,29 @@ penis %>%
     geom_histogram(binwidth = 5, alpha = .7, position = "dodge") +
     scale_x_continuous(breaks = seq(0, 500, 25), minor_breaks = seq(0, 500, 5)) +
     labs(title = "World Penis Data", subtitle = "Volume by State",
-         x = expression(paste("Volume ", (cm^3))), y = "Frequency", fill = "State", color = "State")
+         x = expression(paste("Volume ", (cm^3))), y = "Frequency", fill = "State", color = "State") +
+    theme(legend.position = "top")
   }
 ```
 
+### By State and Region
+
+```{r volume_state_region}
+penis %>% 
+  gather(key = state, value = volume, volume_flaccid, volume_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("volume_flaccid", "volume_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  group_by(Region) %>%
+  mutate(order_volume = mean(volume)) %>%
+  {
+    ggplot(., aes(x = reorder(Region, order_volume), y = volume, fill = state, color = state)) +
+    geom_boxplot(alpha = .7) +
+    coord_flip() +
+    scale_y_continuous(breaks = seq(0, 500, 25), minor_breaks = seq(0, 500, 5)) +
+    labs(title = "World Penis Data", subtitle = "Volume by State",
+         x = "Region", y = expression(paste("Volume ", (cm^3))), fill = "State", color = "State") +
+    theme(axis.text.y = element_text(size = rel(1.5)),
+          legend.position = "top")
+  }
+```
