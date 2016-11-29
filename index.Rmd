@@ -262,9 +262,10 @@ text <- ~paste0("<b>", Region, "</b>",
 cols <- RColorBrewer::brewer.pal(length(unique(penis$Region)), name = "Paired")
 
 plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect) %>%
-  add_markers(color = ~Region, hoverinfo = "text",
+  add_markers(color = ~Region, hoverinfo = "text", size = I(10),
               text = text, colors = cols) %>%
-  layout(xaxis = list(title = "Flaccid Length (cm)"), 
+  layout(title = "World Penis Data: <br />Erect by Flaccid Length",
+         xaxis = list(title = "Flaccid Length (cm)"), 
          yaxis = list(title = "Erect Length (cm)"),
          paper_bgcolor = "#fcfcfc", plot_bgcolor = "#fcfcfc", hovermode = "closest",
          showlegend = F)
