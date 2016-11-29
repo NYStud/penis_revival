@@ -194,7 +194,7 @@ penis %>%
 
 ### Erect Length and Flaccid Length
 
-Seems fairly self-explanatory sto suspect a relationship there, so let's see.
+Seems fairly self-explanatory to suspect a relationship there, so let's see.
 
 ```{r corr_length_states}
 ggplot(data = penis, aes(x = length_flaccid, y = length_erect)) +
@@ -247,5 +247,28 @@ model <- lm(length_erect ~ length_flaccid, data = penis)
 knitr::kable(tidy(model))
 
 knitr::kable(glance(model))
+```
+
+So… yeah. There's a perfectly valid linear relationship with a nice big $R^2$ and it basically tells us that the expected size of an erect penis will be roughly 1.4 times the size of the flaccid penis.  
+Seems… realistic, I guess?
+
+Lastly, here's a version of the above plot for you to get your hands on:
+
+```{r corr_length_states_plotly}
+text <- ~paste0("<b>", Region, "</b>",
+               "<br /><b>Country:</b> ", Country,
+               "<br /><b>N</b> = ", N,
+               "<br /><b>Source:</b> ", Source)
+cols <- RColorBrewer::brewer.pal(length(unique(penis$Region)), name = "Paired")
+
+plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect) %>%
+  add_markers(color = ~Region, hoverinfo = "text",
+              text = text, colors = cols) %>%
+  layout(xaxis = list(title = "Flaccid Length (cm)"), 
+         yaxis = list(title = "Erect Length (cm)"),
+         paper_bgcolor = "#fcfcfc", plot_bgcolor = "#fcfcfc", hovermode = "closest",
+         showlegend = F)
+
+rm(text, cols)
 ```
 
