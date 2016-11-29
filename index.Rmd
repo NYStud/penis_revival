@@ -24,7 +24,7 @@ source("setup.R")
 knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
                       fig.path = "assets/plots/")
 ## ggplot theme
-theme_set(theme_readthedown())
+theme_set(theme_readthedown() + theme(plot.caption = element_text(hjust = 0)))
 
 ## Plotting helpers
 plot_caption <- "See http://public.tadaa-data.de/penis_revival"
@@ -189,3 +189,63 @@ penis %>%
           legend.position = "top")
   }
 ```
+
+## Correlations
+
+### Erect Length and Flaccid Length
+
+Seems fairly self-explanatory sto suspect a relationship there, so let's see.
+
+```{r corr_length_states}
+ggplot(data = penis, aes(x = length_flaccid, y = length_erect)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_point(size = 2) +
+  labs(title = "World Penis Data",
+       subtitle = "Flaccid by Erect Length",
+       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       caption = plot_caption)
+```
+
+Well that looks like a pretty decent linear relationship with some other effect we haven't identified yet.  
+Since there's only so much data in this dataset, the only thing we can really do is to look at the effect of different regions.
+
+```{r corr_length_states_regions_mean}
+penis %>% 
+  group_by(Region) %>%
+  summarize(length_flaccid = mean(length_flaccid),
+            length_erect   = mean(length_erect)) %>%
+  ggplot(data = ., aes(x = length_flaccid, y = length_erect, color = Region)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_point(size = 3, color = "black") +
+  geom_point(size = 2) +
+  scale_color_brewer(palette = "Paired") +
+  labs(title = "World Penis Data",
+       subtitle = "Flaccid by Erect Length (averaged by region)",
+       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       caption = plot_caption)
+```
+That seems… reasonably informative. Let's to that again without the averaging though.
+
+```{r corr_length_states_regions}
+ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_point(size = 3, color = "black") +
+  geom_point(size = 2) +
+  scale_color_brewer(palette = "Paired") +
+  labs(title = "World Penis Data",
+       subtitle = "Flaccid by Erect Length (averaged by region)",
+       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       caption = plot_caption)
+```
+
+Well, we've seen enough of that I guess.  
+Let's do some math:
+
+```{r corr_length_states_lm}
+model <- lm(length_erect ~ length_flaccid, data = penis)
+
+knitr::kable(tidy(model))
+
+knitr::kable(glance(model))
+```
+
