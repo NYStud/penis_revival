@@ -25,21 +25,33 @@ Anyway, long story short: I don't like the look of my old analysis, because that
 
 ## Length by State
 
-```{r length_stats}
+```{r length_state}
 penis %>% 
   gather(key = state, value = length, length_flaccid, length_erect) %>%
   mutate(state = factor(state, 
                         levels = c("length_flaccid", "length_erect"), 
                         labels =  c("Flaccid", "Erect"))) %>%
   {
-    ggplot(., aes(x = length)) +
-    # geom_histogram(data = ., aes(x = length), 
-    #                binwidth = 1, alpha = .5, color = "gray") +
-    geom_histogram(aes(fill = state, color = state),
-                   binwidth = 1, alpha = .7, position = "dodge") +
+    ggplot(., aes(x = length, fill = state, color = state)) +
+    geom_histogram(binwidth = 1, alpha = .7, position = "dodge") +
     scale_x_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
     labs(title = "World Penis Data", subtitle = "Length by State",
          x = "Length (cm)", y = "Frequency", fill = "State", color = "State")
   }
 ```
-
+ ## Volume by State
+ 
+```{r volume_state}
+penis %>% 
+  gather(key = state, value = volume, volume_flaccid, volume_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("volume_flaccid", "volume_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  {
+    ggplot(., aes(x = volume, fill = state, color = state)) +
+    geom_histogram(binwidth = 5, alpha = .7, position = "dodge") +
+    scale_x_continuous(breaks = seq(0, 500, 25), minor_breaks = seq(0, 500, 5)) +
+    labs(title = "World Penis Data", subtitle = "Volume by State",
+         x = expression(paste("Volume ", (cm^3))), y = "Frequency", fill = "State", color = "State")
+  }
+```
