@@ -11,6 +11,8 @@ output:
     fig_height: 7
     theme: yeti
     code_folding: show
+    lib_dir: "assets"
+    self_contained: no
     include:
       after_body: _footer.html
 ---
