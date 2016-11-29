@@ -233,7 +233,7 @@ ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) 
   geom_point(size = 2) +
   scale_color_brewer(palette = "Paired") +
   labs(title = "World Penis Data",
-       subtitle = "Flaccid by Erect Length (averaged by region)",
+       subtitle = "Flaccid by Erect Length",
        x = "Flaccid Length (cm)", y = "Erect Length (cm)",
        caption = plot_caption)
 ```
