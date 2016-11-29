@@ -10,4 +10,4 @@ penis <- loldata::penis
 
 ## knitr options
 knitr::opts_chunk$set(echo = F, warning = F, message = F, fig.align = "center",
-                      fig.path = "plots/")
+                      fig.path = "assets/plots/")
