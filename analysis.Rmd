@@ -7,7 +7,8 @@ output:
     toc: true
     toc_float: true
     highlight: tango
-    fig_width: 9
+    fig_width: 10
+    fig_height: 7
     theme: yeti
     code_folding: show
     include:
@@ -23,7 +24,9 @@ A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/
 
 Anyway, long story short: I don't like the look of my old analysis, because that was done in a time before I bothered with ggplot2-prettification. So now we try this again.
 
-## Length by State
+## Length 
+
+### By State
 
 ```{r length_state}
 penis %>% 
@@ -39,7 +42,31 @@ penis %>%
          x = "Length (cm)", y = "Frequency", fill = "State", color = "State")
   }
 ```
- ## Volume by State
+
+### By State and Region
+
+```{r length_state_region}
+penis %>% 
+  gather(key = state, value = length, length_flaccid, length_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("length_flaccid", "length_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  group_by(Region) %>%
+  mutate(order_length = mean(length)) %>%
+  {
+    ggplot(., aes(x = reorder(Region, order_length), y = length, fill = state, color = state)) +
+    geom_boxplot(alpha = .7) +
+    coord_flip() +
+    scale_y_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
+    labs(title = "World Penis Data", subtitle = "Length by State",
+         x = "Region", y = "Length (cm)", fill = "State", color = "State") +
+    theme(axis.text.y = element_text(size = rel(1.5)))
+  }
+```
+
+## Volume
+
+### By State
  
 ```{r volume_state}
 penis %>% 
@@ -55,3 +82,4 @@ penis %>%
          x = expression(paste("Volume ", (cm^3))), y = "Frequency", fill = "State", color = "State")
   }
 ```
+
