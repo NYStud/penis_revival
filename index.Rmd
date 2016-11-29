@@ -105,7 +105,7 @@ penis %>%
     scale_y_continuous(breaks = seq(0, 500, 25), minor_breaks = seq(0, 500, 5)) +
     labs(title = "World Penis Data", subtitle = "Volume by State",
          x = "Region", y = expression(paste("Volume ", (cm^3))), fill = "State", color = "State") +
-    theme(axis.text.y = element_text(size = rel(1.5)),
+    theme(axis.text.y = element_text(size = rel(1.2)),
           legend.position = "top")
   }
 ```
