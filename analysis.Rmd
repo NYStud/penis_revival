@@ -1,6 +1,6 @@
 ---
 title: "Word Penis Data… Again"
-author: "Lukas"
+author: "Tobi & Lukas"
 date: "Rendered `r format(Sys.time(), '%F %H:%M')`"
 output:
   html_document:
@@ -16,9 +16,30 @@ output:
 
 ```{r setup, include=F}
 source("setup.R")
+theme_set(theme_readthedown())
 ```
 
 A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/08/i-analyzed-some-world-penis-data---because-why-not/), because let's face it, the inclined data enthusiast can't resist a dataset like [this](www.everyoneweb.com/worldpenissize). Sadly, my old code to scrape the table on that page doesn't work anymore, and I have not figured out a new way to get the data, so I have to rely on the data I saved the last time and included in the [tadaadata/loldata](github.com/tadaadata/loldata) package.  
 
 Anyway, long story short: I don't like the look of my old analysis, because that was done in a time before I bothered with ggplot2-prettification. So now we try this again.
+
+## Length by State
+
+```{r length_stats}
+penis %>% 
+  gather(key = state, value = length, length_flaccid, length_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("length_flaccid", "length_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  {
+    ggplot(., aes(x = length)) +
+    # geom_histogram(data = ., aes(x = length), 
+    #                binwidth = 1, alpha = .5, color = "gray") +
+    geom_histogram(aes(fill = state, color = state),
+                   binwidth = 1, alpha = .7, position = "dodge") +
+    scale_x_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
+    labs(title = "World Penis Data", subtitle = "Length by State",
+         x = "Length (cm)", y = "Frequency", fill = "State", color = "State")
+  }
+```
 
