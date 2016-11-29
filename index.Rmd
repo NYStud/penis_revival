@@ -68,6 +68,26 @@ penis %>%
 As we can see, our data seems to be most reliable for Europe, South America, multiple Asias and Africa.  
 Oddly enough, we have relatively little data on North America, and our data on the Pacific Islands and Central Asia should probably be taken with a grain of salt. However, I have no idea what an appropriate sample size for data like this would be, so I'm mainly eyeballing and trying to sound knowledgable here.
 
+Let's look at the N of the individual datapoints (because every row in our dataset represents the data of a specific study). We'll exclude rows with an N over 200, because that's probably a suffienctly large sample anyway.
+
+```{r firstlook_n}
+penis %>%
+  filter(N < 200) %>%
+  ggplot(data = ., aes(x = N)) +
+  geom_histogram(binwidth = 5, alpha = .7) +
+  scale_x_continuous(breaks = seq(0, 200, 10),
+                     minor_breaks = seq(0, 200, 5)) +
+  labs(title = "World Penis Data", subtitle = "Reported N per Study",
+       x = "Reported N", y = "Frequency", caption = plot_caption)
+```
+
+
+For the remainder of the analysis, we'll be excluding any data point based on an N smaller than 50, because that's the arbitrary judgement of precision I just came up with.
+
+```{r smaller_penis, echo = F}
+penis <- penis %>% filter(N >= 50)
+```
+
 
 ## Length 
 
