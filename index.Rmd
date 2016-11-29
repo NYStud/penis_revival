@@ -20,6 +20,11 @@ output:
 ```{r setup, include=F}
 source("setup.R")
 theme_set(theme_readthedown())
+
+plot_caption <- "See http://public.tadaa-data.de/penis_revival"
+
+label_in <- function(x) {paste0(x, "\"")}
+label_cm <- function(x) {paste0(x, "cm")}
 ```
 
 A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/08/i-analyzed-some-world-penis-data---because-why-not/), because let's face it, the inclined data enthusiast can't resist a dataset like [this](www.everyoneweb.com/worldpenissize). Sadly, my old code to scrape the table on that page doesn't work anymore, and I have not figured out a new way to get the data, so I have to rely on the data I saved the last time and included in the [tadaadata/loldata](github.com/tadaadata/loldata) package.  
@@ -38,7 +43,7 @@ penis %>%
   geom_col(alpha = .7) +
   coord_flip() +
   labs(title = "World Penis Data", subtitle = "Number of Studies in Dataset by Region",
-       x = "Region", y = "Number of Studies")
+       x = "Region", y = "Number of Studies", caption = plot_caption)
 
 penis %>%
   group_by(Region) %>%
@@ -48,7 +53,7 @@ penis %>%
   coord_flip() +
   scale_y_continuous(breaks = seq(0, 10^5, 5000), minor_breaks = seq(0, 10^5, 1000)) +
   labs(title = "World Penis Data", subtitle = "Total N of Studies by Region",
-       x = "Region", y = "Total N")
+       x = "Region", y = "Total N", caption = plot_caption)
 ```
 
 As we can see, our data seems to be most reliable for Europe, South America, multiple Asias and Africa.  
@@ -69,11 +74,12 @@ penis %>%
     ggplot(., aes(x = length, fill = state, color = state)) +
     geom_histogram(binwidth = 1, alpha = .7, position = "dodge") +
     scale_x_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5),
-                       labels = function(x) paste0(x, "cm"),
+                       labels = label_cm,
                        sec.axis = sec_axis(trans = ~./2.54, 
-                                           labels = function(x) paste0(x, "\""))) +
+                                           labels = label_in)) +
     labs(title = "World Penis Data", subtitle = "Length by State",
-         x = "Length", y = "Frequency", fill = "State", color = "State") +
+         x = "Length", y = "Frequency", fill = "State", color = "State",
+         caption = plot_caption) +
     theme(legend.position = "top")
   }
 ```
@@ -94,7 +100,8 @@ penis %>%
     coord_flip() +
     scale_y_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
     labs(title = "World Penis Data", subtitle = "Length by State",
-         x = "Region", y = "Length (cm)", fill = "State", color = "State") +
+         x = "Region", y = "Length (cm)", fill = "State", color = "State",
+         caption = plot_caption) +
     theme(axis.text.y = element_text(size = rel(1.2)),
           legend.position = "top")
   }
@@ -115,7 +122,8 @@ penis %>%
     geom_histogram(binwidth = 5, alpha = .7, position = "dodge") +
     scale_x_continuous(breaks = seq(0, 500, 25), minor_breaks = seq(0, 500, 5)) +
     labs(title = "World Penis Data", subtitle = "Volume by State",
-         x = expression(paste("Volume ", (cm^3))), y = "Frequency", fill = "State", color = "State") +
+         x = expression(paste("Volume ", (cm^3))), y = "Frequency", 
+         fill = "State", color = "State", caption = plot_caption) +
     theme(legend.position = "top")
   }
 ```
@@ -136,7 +144,8 @@ penis %>%
     coord_flip() +
     scale_y_continuous(breaks = seq(0, 500, 25), minor_breaks = seq(0, 500, 5)) +
     labs(title = "World Penis Data", subtitle = "Volume by State",
-         x = "Region", y = expression(paste("Volume ", (cm^3))), fill = "State", color = "State") +
+         x = "Region", y = expression(paste("Volume ", (cm^3))), 
+         fill = "State", color = "State", caption = plot_caption) +
     theme(axis.text.y = element_text(size = rel(1.2)),
           legend.position = "top")
   }
