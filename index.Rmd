@@ -68,9 +68,12 @@ penis %>%
   {
     ggplot(., aes(x = length, fill = state, color = state)) +
     geom_histogram(binwidth = 1, alpha = .7, position = "dodge") +
-    scale_x_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5)) +
+    scale_x_continuous(breaks = seq(0, 100, 2), minor_breaks = seq(0, 100, .5),
+                       labels = function(x) paste0(x, "cm"),
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = function(x) paste0(x, "\""))) +
     labs(title = "World Penis Data", subtitle = "Length by State",
-         x = "Length (cm)", y = "Frequency", fill = "State", color = "State") +
+         x = "Length", y = "Frequency", fill = "State", color = "State") +
     theme(legend.position = "top")
   }
 ```
