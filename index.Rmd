@@ -81,6 +81,7 @@ penis %>%
        x = "Reported N", y = "Frequency", caption = plot_caption)
 ```
 
+
 Seems like we have a few data points based on fairly small samples.  
 For the remainder of the analysis, we'll be excluding these data points with an N smaller than 50, because that's the arbitrary judgement of precision I just came up with.
 
@@ -194,6 +195,94 @@ penis_long %>%
   }
 ```
 
+## Circumference
+
+As with length, it's probably not really interesting to look at the distribution of penis circumferences regardless of state, but well, we're a thorough bunch.
+
+```{r circumf}
+ggplot(penis_long, aes(x = length)) +
+geom_histogram(binwidth = .5, alpha = .7, position = "dodge") +
+scale_x_continuous(breaks = seq(0, 100, 1), 
+                   minor_breaks = seq(0, 100, .5),
+                   labels = label_cm,
+                   sec.axis = sec_axis(trans = ~./2.54, 
+                                       labels = label_in)) +
+labs(title = "World Penis Data", subtitle = "Circumference",
+     x = "Circumference", y = "Frequency", 
+     fill = "State", color = "State",
+     caption = plot_caption) +
+theme(legend.position = "top")
+```
+
+
+### By State
+
+```{r circumf_state}
+ggplot(penis_long, aes(x = length, fill = state, color = state)) +
+geom_histogram(binwidth = .5, alpha = .7, position = "dodge") +
+scale_x_continuous(breaks = seq(0, 100, 1), 
+                   minor_breaks = seq(0, 100, .5),
+                   labels = label_cm,
+                   sec.axis = sec_axis(trans = ~./2.54, 
+                                       labels = label_in)) +
+scale_fill_brewer(palette = "Paired") +
+scale_color_brewer(palette = "Paired") +
+labs(title = "World Penis Data", subtitle = "Circumference by State",
+     x = "Circumference", y = "Frequency", 
+     fill = "State", color = "State",
+     caption = plot_caption) +
+theme(legend.position = "top")
+```
+
+### By State and Region
+
+```{r circumf_state_region}
+penis_long %>%
+  group_by(Region) %>%
+  mutate(order_circumf = mean(length)) %>%
+  {
+    ggplot(., aes(x = reorder(Region, order_circumf), y = circumf, 
+                  fill = state, color = state)) +
+    geom_boxplot(alpha = .7) +
+    coord_flip() +
+    scale_y_continuous(breaks = seq(0, 100, 2), 
+                       minor_breaks = seq(0, 100, .5),
+                       labels = label_cm,
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+    scale_fill_brewer(palette = "Paired") +
+    scale_color_brewer(palette = "Paired") +
+    labs(title = "World Penis Data", subtitle = "Circumference by State",
+         x = "", y = "Circumference", fill = "State", color = "State",
+         caption = plot_caption) +
+    theme(axis.text.y = element_text(size = rel(1.2)),
+          legend.position = "top")
+  }
+
+# CIs
+penis_long %>%
+  group_by(Region) %>%
+  mutate(order_circumf = mean(length)) %>%
+  {
+    ggplot(data = ., aes(x = reorder(Region, order_circumf), y = circumf, color = state)) +
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar") +
+    stat_summary(fun.y = mean, geom = "point", size = 2) +
+    coord_flip() +
+    scale_y_continuous(breaks = seq(0, 100, 1), 
+                       minor_breaks = seq(0, 100, .5),
+                       labels = label_cm,
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+    scale_color_brewer(palette = "Paired") +
+    labs(title = "World Penis Data", subtitle = "Circumference by State",
+         x = "", y = "Circumference", fill = "State", color = "State",
+         caption = plot_caption) +
+    theme(axis.text.y = element_text(size = rel(1.2)),
+          legend.position = "top")
+  }
+```
+
+
 ## Volume
 
 ### By State
@@ -281,6 +370,7 @@ ggplot(data = penis, aes(x = length_flaccid, y = length_erect)) +
        caption = plot_caption)
 ```
 
+
 Well that looks like a pretty decent linear relationship with some other effect we haven't identified yet.  
 Since there's only so much data in this dataset, the only thing we can really do is to look at the effect of different regions.
 
@@ -299,6 +389,7 @@ penis %>%
        x = "Flaccid Length (cm)", y = "Erect Length (cm)",
        caption = plot_caption)
 ```
+
 That seems… reasonably informative. Let's to that again without the averaging though.
 
 ```{r corr_length_states_regions}
@@ -313,6 +404,7 @@ ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) 
        caption = plot_caption)
 ```
 
+
 Well, we've seen enough of that I guess.  
 Let's do some math:
 
@@ -323,6 +415,7 @@ knitr::kable(tidy(model))
 
 knitr::kable(glance(model))
 ```
+
 
 So… yeah. There's a perfectly valid linear relationship with a nice big $R^2$ and it basically tells us that the expected size of an erect penis will be roughly 1.4 times the size of the flaccid penis.  
 Seems… realistic, I guess?
@@ -345,6 +438,6 @@ plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired")
          paper_bgcolor = "#fcfcfc", plot_bgcolor = "#fcfcfc", hovermode = "closest",
          showlegend = F)
 
-rm(text, cols)
+rm(text)
 ```
 
