@@ -19,18 +19,6 @@ output:
 
 ```{r setup, include=F}
 source("setup.R")
-
-## knitr options
-knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
-                      fig.path = "assets/plots/")
-## ggplot theme
-theme_set(theme_readthedown(bg = "#FFFFFF") + theme(plot.caption = element_text(hjust = 0)))
-
-## Plotting helpers
-plot_caption <- "See http://public.tadaa-data.de/penis_revival"
-
-label_in <- function(x) {paste0(x, "\"")}
-label_cm <- function(x) {paste0(x, "cm")}
 ```
 
 A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/08/i-analyzed-some-world-penis-data---because-why-not/), because let's face it, the inclined data enthusiast can't resist a dataset like [this](http://www.everyoneweb.com/worldpenissize). Sadly, my old code to scrape the table on that page doesn't work anymore, and I have not figured out a new way to get the data, so I have to rely on the data I saved the last time and included in the [tadaadata/loldata](https://github.com/tadaadata/loldata) package.  

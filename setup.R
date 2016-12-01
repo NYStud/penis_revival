@@ -42,3 +42,15 @@ penis_long <-
                       by = c("Country", "Region", "Method", "N", "Source", "state")),
             by = c("Country", "Region", "Method", "N", "Source", "state"))
   }
+
+## knitr options
+knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
+                      fig.path = "assets/plots/")
+## ggplot theme
+theme_set(theme_readthedown(bg = "#FFFFFF") + theme(plot.caption = element_text(hjust = 0)))
+
+## Plotting helpers
+plot_caption <- "http://public.tadaa-data.de/penis_revival"
+
+label_in <- function(x) {paste0(x, "\"")}
+label_cm <- function(x) {paste0(x, "cm")}
