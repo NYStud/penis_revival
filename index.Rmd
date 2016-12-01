@@ -117,7 +117,7 @@ penis %>%
 ```
 
 
-#### By State
+### By State
 
 ```{r length_state}
 penis %>% 
@@ -187,7 +187,7 @@ penis_long %>%
                        sec.axis = sec_axis(trans = ~./2.54, 
                                            labels = label_in)) +
     scale_color_brewer(palette = "Paired") +
-    labs(title = "World Penis Data", subtitle = "Length by State",
+    labs(title = "World Penis Data", subtitle = "Length by State (mean with 95% CI)",
          x = "", y = "Length", fill = "State", color = "State",
          caption = plot_caption) +
     theme(axis.text.y = element_text(size = rel(1.2)),
@@ -218,7 +218,8 @@ ggplot(data = penis, aes(x = reorder(Region, growth_length), y = growth_length))
   stat_summary(fun.y = mean, geom = "point", size = 2) +
   coord_flip() +
   scale_y_continuous(breaks = seq(0, 2, .05)) +
-  labs(title = "World Penis Data", subtitle = "Length-wise growth factorby region",
+  labs(title = "World Penis Data", 
+       subtitle = "Length-wise growth factor by region (mean with 95% CI)",
        x = "", y = "Growth Factor",
        caption = plot_caption)
 ```
