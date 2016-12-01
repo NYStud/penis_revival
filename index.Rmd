@@ -435,7 +435,7 @@ plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired")
   layout(title = "World Penis Data:<br />Erect by Flaccid Length",
          xaxis = list(title = "Flaccid Length (cm)"), 
          yaxis = list(title = "Erect Length (cm)"),
-         paper_bgcolor = "#fcfcfc", plot_bgcolor = "#fcfcfc", hovermode = "closest",
+         paper_bgcolor = "#fcfcfc", plot_bgcolor = "#FFFFFF", hovermode = "closest",
          showlegend = F)
 
 rm(text)
