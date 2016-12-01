@@ -10,7 +10,10 @@ library(tadaatoolbox)
 
 ## Get data
 # devtools::install_github("tadaadata/loldata")
-penis <- loldata::penis
+penis <- loldata::penis %>%
+  mutate(growth_length  = length_erect / length_flaccid,
+         growth_circumf = circumf_erect / circumf_flaccid,
+         growth_volume  = volume_erect / volume_flaccid)
 
 # Long format
 penis_long <-
