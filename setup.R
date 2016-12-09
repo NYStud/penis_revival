@@ -7,6 +7,7 @@ library(magrittr)
 library(DT)
 library(plotly)
 library(tadaatoolbox)
+library(highcharter)
 
 ## Get data
 # devtools::install_github("tadaadata/loldata")
@@ -15,6 +16,24 @@ penis <- loldata::penis %>%
   mutate(growth_length  = length_erect / length_flaccid,
          growth_circumf = circumf_erect / circumf_flaccid,
          growth_volume  = volume_erect / volume_flaccid)
+
+# rename Countries
+penis$Country <- recode(penis$Country,
+                        "Hong Kong"       = "Hong Kong SAR, China",
+                        "Korea, South"    = "Korea, Rep.",
+                        "Luxemburg"       = "Luxembourg",
+                        "Macedonia"       = "Macedonia, FYR",
+                        "Myanmar (Burma)" = "Myanmar",
+                        "Nigerian"        = "Nigeria",
+                        "Phillippines"    = "Philippines",
+                        "Russia"          = "Russian Federation",
+                        "Siria"           = "Syria",
+                        "Slovakia"        = "Slovak Republic",
+                        "Sri lanka"       = "Sri Lanka",
+                        "UAE"             = "United Arab Emirates",
+                        "United States of America" = "United States",
+                        "Venezuela"       = "Venezuela, RB",
+                        "Yemen"           = "Yemen, Rep.")
 
 # Long format
 penis_long <-
@@ -43,6 +62,44 @@ penis_long <-
                       by = c("Country", "Region", "Method", "N", "Source", "state")),
             by = c("Country", "Region", "Method", "N", "Source", "state"))
   }
+
+# ISO3 Codes for countries
+data("GNI2014", package = "treemap")
+
+no.avail <- penis %>% filter((Country %in% GNI2014$country) == F) %>% select(Country)
+avail    <- GNI2014 %>% filter(country %in% penis$Country) %>% select(country, iso3)
+
+no.avail <- no.avail %>%
+  mutate(iso3 = recode(Country,
+                       "Angola"        = "AGO",
+                       "Bahrein"       = "BHR",
+                       "Cape Verde"    = "CPV",
+                       "Central African Rep." = "CAF",
+                       "Cuba"          = "CUB",
+                       "DR Congo"      = "COD",
+                       "Egypt"         = "EGY",
+                       "Eritrea"       = "ERI",
+                       "Estonia"       = "EST",
+                       "Gambia"        = "GMB",
+                       "Greenland"     = "GRL",
+                       "Iran"          = "IRN",
+                       "Korea, North"  = "PRK",
+                       "Laos"          = "LAO",
+                       "New Caledonia" = "NCL",
+                       "Palestine"     = "PSE",
+                       "Syria"         = "SYR",
+                       "Taiwan"        = "TWN"))
+
+names(avail) <- names(no.avail)
+all <- rbind(avail, no.avail) %>% arrange(Country)
+
+map <- penis %>%
+  mutate(iso3 = all$iso3) %>%
+  filter((Country %in% c("Buzzfeed Motion Pictures", "Congo-Brazzaville",
+                         "Hawaii", "Scotland", "Tibet")) == F)
+
+rm(all, avail, no.avail, GNI2014)
+
 
 ## knitr options
 knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
