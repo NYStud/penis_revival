@@ -380,7 +380,9 @@ A choropleth map displaying the worldwide distribution of the volume of erect pe
 data(worldgeojson, package = "highcharter")
 
 highchart() %>% 
-  hc_add_series_map(worldgeojson, map, value = "volume_erect", joinBy = "iso3") %>% 
+  hc_add_series_map(worldgeojson, map, value = "volume_erect", joinBy = "iso3",
+                    name = "Penis Volume (erect)") %>% 
+  hc_tooltip(valueDecimals = 2, valueSuffix = " cm²") %>% 
   hc_legend(enabled = TRUE) %>% 
   hc_add_theme(hc_theme_db()) %>% 
   hc_mapNavigation(enabled = TRUE)
