@@ -372,6 +372,21 @@ penis_long %>%
   }
 ```
 
+## Choropletz-Penismap, because why not?
+
+A choropleth map displaying the worldwide distribution of the volume of erect penisses. Enjoy.
+
+```{r choropenis_vol_erect}
+data(worldgeojson, package = "highcharter")
+
+highchart() %>% 
+  hc_add_series_map(worldgeojson, map, value = "volume_erect", joinBy = "iso3") %>% 
+  hc_legend(enabled = TRUE) %>% 
+  hc_add_theme(hc_theme_db()) %>% 
+  hc_mapNavigation(enabled = TRUE)
+```
+
+
 ## Correlations
 
 ### Erect Length and Flaccid Length
