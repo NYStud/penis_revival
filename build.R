@@ -1,9 +1,10 @@
 #! /usr/bin/env Rscript
-rmarkdown::render(input = "index.Rmd")
+
+rmarkdown::render_site(".")
 
 # Collect output files
 out_docs   <- list.files(path = ".", pattern = "*.html", full.names = T)
-out_assets <- c("assets")
+out_assets <- c("assets", "site_libs")
 
 # Copy files to btsync directory
 if (system(command = "whoami", intern = T) == "Lukas") {

@@ -37,8 +37,7 @@ penis$Country <- recode(penis$Country,
                         "Yemen"           = "Yemen, Rep.")
 
 # Long format
-penis_long <-
-  loldata::penis %>%
+penis_long <- loldata::penis %>%
   select(-circumf_erect_in, -length_erect_in) %>%
   {
 
@@ -67,7 +66,7 @@ penis_long <-
 # ISO3 Codes for countries
 data("GNI2014", package = "treemap")
 
-no.avail <- penis %>% filter((Country %in% GNI2014$country) == F) %>% select(Country)
+no.avail <- penis %>% filter(!(Country %in% GNI2014$country)) %>% select(Country)
 avail    <- GNI2014 %>% filter(country %in% penis$Country) %>% select(country, iso3)
 
 no.avail <- no.avail %>%
@@ -101,7 +100,6 @@ map <- penis %>%
 
 rm(all, avail, no.avail, GNI2014)
 
-
 ## knitr options
 knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
                       fig.path = "assets/plots/")
@@ -109,7 +107,7 @@ knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
 theme_set(theme_readthedown(bg = "#FFFFFF") + theme(plot.caption = element_text(hjust = 0)))
 
 ## Plotting helpers
-plot_caption <- "http://public.tadaa-data.de/penis_revival"
+plot_caption <- "https://public.tadaa-data.de/penis_revival"
 
 label_in <- function(x) {paste0(x, "\"")}
 label_cm <- function(x) {paste0(x, "cm")}

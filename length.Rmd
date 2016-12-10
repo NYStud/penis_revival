@@ -1,0 +1,230 @@
+---
+title: "Length"
+author: "Tobi & Lukas"
+date: "Rendered `r format(Sys.time(), '%F %H:%M')`"
+output:
+  html_document
+---
+
+```{r setup_length, include=FALSE}
+source("setup.R")
+```
+
+It seems fairly pointless to plot the length of both flaccid and erect states combined, but for completion's sake, let's just get it over with.
+
+```{r length}
+penis %>% 
+  gather(key = state, value = length, length_flaccid, length_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("length_flaccid", "length_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  {
+    ggplot(., aes(x = length)) +
+    geom_histogram(binwidth = .5, alpha = .7, position = "dodge") +
+    scale_x_continuous(breaks = seq(0, 100, 2), 
+                       minor_breaks = seq(0, 100, .5),
+                       labels = label_cm,
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+    labs(title = "World Penis Data", subtitle = "Length",
+         x = "Length", y = "Frequency", 
+         fill = "State", color = "State",
+         caption = plot_caption) +
+    theme(legend.position = "top")
+  }
+```
+
+
+## By State
+
+```{r length_state}
+penis %>% 
+  gather(key = state, value = length, length_flaccid, length_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("length_flaccid", "length_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  {
+    ggplot(., aes(x = length, fill = state, color = state)) +
+    geom_histogram(binwidth = .5, alpha = .7, position = "dodge") +
+    scale_x_continuous(breaks = seq(0, 100, 2), 
+                       minor_breaks = seq(0, 100, .5),
+                       labels = label_cm,
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+    scale_fill_brewer(palette = "Paired") +
+    scale_color_brewer(palette = "Paired") +
+    labs(title = "World Penis Data", subtitle = "Length by State",
+         x = "Length", y = "Frequency", 
+         fill = "State", color = "State",
+         caption = plot_caption) +
+    theme(legend.position = "top")
+  }
+```
+
+### By State and Region
+
+```{r length_state_region}
+penis %>% 
+  gather(key = state, value = length, length_flaccid, length_erect) %>%
+  mutate(state = factor(state, 
+                        levels = c("length_flaccid", "length_erect"), 
+                        labels =  c("Flaccid", "Erect"))) %>%
+  group_by(Region) %>%
+  mutate(order_length = mean(length)) %>%
+  {
+    ggplot(., aes(x = reorder(Region, order_length), y = length, 
+                  fill = state, color = state)) +
+    geom_boxplot(alpha = .7) +
+    coord_flip() +
+    scale_y_continuous(breaks = seq(0, 100, 2), 
+                       minor_breaks = seq(0, 100, .5),
+                       labels = label_cm,
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+    scale_fill_brewer(palette = "Paired") +
+    scale_color_brewer(palette = "Paired") +
+    labs(title = "World Penis Data", subtitle = "Length by State",
+         x = "", y = "Length", fill = "State", color = "State",
+         caption = plot_caption) +
+    theme(axis.text.y = element_text(size = rel(1.2)),
+          legend.position = "top")
+  }
+
+# CIs
+penis_long %>%
+  group_by(Region) %>%
+  mutate(order_length = mean(length)) %>%
+  {
+    ggplot(data = ., aes(x = reorder(Region, order_length), y = length, color = state)) +
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar") +
+    stat_summary(fun.y = mean, geom = "point", size = 2) +
+    coord_flip() +
+    scale_y_continuous(breaks = seq(0, 100, 2), 
+                       minor_breaks = seq(0, 100, .5),
+                       labels = label_cm,
+                       sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+    scale_color_brewer(palette = "Paired") +
+    labs(title = "World Penis Data", subtitle = "Length by State (mean with 95% CI)",
+         x = "", y = "Length", fill = "State", color = "State",
+         caption = plot_caption) +
+    theme(axis.text.y = element_text(size = rel(1.2)),
+          legend.position = "top")
+  }
+```
+
+## Growth Factor
+
+I calculated the length-wise growth factor based on $\frac{\text{erect length}}{\text{flaccid length}}$, which reduces the relationship of erect and flaccid length into a single variable.  
+Let's look what that's all about.
+
+```{r length_growth}
+ggplot(data = penis, aes(x = growth_length)) +
+  geom_histogram(binwidth = .05, alpha = .7) +
+  labs(title = "World Penis Data", subtitle = "Length-wise growth factor",
+         x = "Growth Factor", y = "Frequency",
+         caption = plot_caption)
+```
+
+Well that seems like it justifies further investigation.
+
+### By Region
+
+```{r growth_length_regions}
+ggplot(data = penis, aes(x = reorder(Region, growth_length), y = growth_length)) +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar") +
+  stat_summary(fun.y = mean, geom = "point", size = 2) +
+  coord_flip() +
+  scale_y_continuous(breaks = seq(0, 2, .05)) +
+  labs(title = "World Penis Data", 
+       subtitle = "Length-wise growth factor by region (mean with 95% CI)",
+       x = "", y = "Growth Factor",
+       caption = plot_caption)
+```
+
+## Correlations
+
+### Erect Length and Flaccid Length
+
+Seems fairly self-explanatory to suspect a relationship there, so let's see.
+
+```{r corr_length_states}
+ggplot(data = penis, aes(x = length_flaccid, y = length_erect)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_point(size = 2) +
+  labs(title = "World Penis Data",
+       subtitle = "Flaccid by Erect Length",
+       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       caption = plot_caption)
+```
+
+
+Well that looks like a pretty decent linear relationship with some other effect we haven't identified yet.  
+Since there's only so much data in this dataset, the only thing we can really do is to look at the effect of different regions.
+
+```{r corr_length_states_regions_mean}
+penis %>% 
+  group_by(Region) %>%
+  summarize(length_flaccid = mean(length_flaccid),
+            length_erect   = mean(length_erect)) %>%
+  ggplot(data = ., aes(x = length_flaccid, y = length_erect, color = Region)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_point(size = 3, color = "black") +
+  geom_point(size = 2) +
+  scale_color_brewer(palette = "Paired") +
+  labs(title = "World Penis Data",
+       subtitle = "Flaccid by Erect Length (averaged by region)",
+       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       caption = plot_caption)
+```
+
+That seems… reasonably informative. Let's to that again without the averaging though.
+
+```{r corr_length_states_regions}
+ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_point(size = 3, color = "black") +
+  geom_point(size = 2) +
+  scale_color_brewer(palette = "Paired") +
+  labs(title = "World Penis Data",
+       subtitle = "Flaccid by Erect Length",
+       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       caption = plot_caption)
+```
+
+
+Well, we've seen enough of that I guess.  
+Let's do some math:
+
+```{r corr_length_states_lm}
+model <- lm(length_erect ~ length_flaccid, data = penis)
+
+knitr::kable(tidy(model))
+
+knitr::kable(glance(model))
+```
+
+
+So… yeah. There's a perfectly valid linear relationship with a nice big $R^2$ and it basically tells us that the expected size of an erect penis will be roughly 1.4 times the size of the flaccid penis.  
+Seems… realistic, I guess?
+
+Lastly, here's a version of the above plot for you to get your hands on:
+
+```{r corr_length_states_plotly}
+text <- ~paste0("<b>", Region, "</b>",
+               "<br /><b>Country:</b> ", Country,
+               "<br /><b>N</b> = ", N,
+               "<br /><b>Source:</b> ", Source)
+
+plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired") %>%
+  add_markers(color = I("black"), size = I(12), hoverinfo = "none") %>%
+  add_markers(color = ~Region, hoverinfo = "text", size = I(10),
+              text = text) %>%
+  layout(title = "World Penis Data:<br />Erect by Flaccid Length",
+         xaxis = list(title = "Flaccid Length (cm)"), 
+         yaxis = list(title = "Erect Length (cm)"),
+         paper_bgcolor = "#ffffff", plot_bgcolor = "#ffffff", hovermode = "closest",
+         showlegend = F)
+
+rm(text)
+```

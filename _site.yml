@@ -1,0 +1,40 @@
+name: "Penis Data"
+output_dir: "."
+navbar:
+  title: "Penis Data"
+  left:
+    - text: "Index"
+      icon: fa-home
+      href: index.html
+    - text: "Length"
+      icon: fa-list-ul
+      href: length.html
+    - text: "Circumference"
+      icon: fa-list-ul
+      href: circumf.html
+    - text: "Volume"
+      icon: fa-list-ul
+      href: volume.html
+  right:
+    - text: "Tadaa, Data!"
+      icon: fa-file
+      href: "https://tadaa-data.de"
+    - text: "@tadaa_data"
+      icon: fa-twitter
+      href: https://twitter.com/tadaa_data
+    - text: "Source"
+      icon: fa-github
+      href: https://github.com/tadaadata/penis_revival
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: tango
+    fig_width: 9
+    fig_height: 6
+    theme: flatly
+    code_folding: hide
+    lib_dir: "assets"
+    self_contained: no
+    include:
+      after_body: "_footer.html"
