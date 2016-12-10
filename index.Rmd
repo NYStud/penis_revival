@@ -20,7 +20,7 @@ Anyway, long story short: I don't like the look of my old analysis, because that
 First up, let's see where the data is from in the first place.
 
 ```{r firstlook}
-penis %>%
+loldata::penis %>%
   group_by(Region) %>%
   tally() %>%
   ggplot(aes(x = reorder(Region, n), y = n)) +
@@ -30,7 +30,7 @@ penis %>%
        subtitle = "Number of Studies in Dataset by Region",
        x = "", y = "Number of Studies", caption = plot_caption)
 
-penis %>%
+loldata::penis %>%
   group_by(Region) %>%
   summarize(n = sum(N)) %>%
   ggplot(aes(x = reorder(Region, n), y = n)) +
@@ -49,7 +49,7 @@ Oddly enough, we have relatively little data on North America, and our data on t
 Let's look at the N of the individual datapoints (because every row in our dataset represents the data of a specific study). We'll exclude rows with an N over 200, because that's probably a sufficiently large sample anyway.
 
 ```{r firstlook_n}
-penis %>%
+loldata::penis %>%
   filter(N < 200) %>%
   ggplot(data = ., aes(x = N)) +
   geom_histogram(binwidth = 5, alpha = .7) +
@@ -63,6 +63,3 @@ penis %>%
 Seems like we have a few data points based on fairly small samples.  
 For the remainder of the analysis, we'll be excluding these data points with an N smaller than 50, because that's the arbitrary judgement of precision I just came up with.
 
-```{r smaller_penis, echo=FALSE}
-penis <- penis %>% filter(N >= 50)
-```

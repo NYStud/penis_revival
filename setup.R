@@ -13,6 +13,7 @@ library(viridisLite)
 ## Get data
 # devtools::install_github("tadaadata/loldata")
 penis <- loldata::penis %>%
+  filter(N >= 50) %>%
   select(-circumf_erect_in, -length_erect_in) %>%
   mutate(growth_length  = length_erect / length_flaccid,
          growth_circumf = circumf_erect / circumf_flaccid,
@@ -38,6 +39,7 @@ penis$Country <- recode(penis$Country,
 
 # Long format
 penis_long <- loldata::penis %>%
+  filter(N >= 50) %>%
   select(-circumf_erect_in, -length_erect_in) %>%
   {
 
