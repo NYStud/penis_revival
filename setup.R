@@ -95,8 +95,8 @@ all <- rbind(avail, no.avail) %>% arrange(Country)
 
 map <- penis %>%
   mutate(iso3 = all$iso3) %>%
-  filter((Country %in% c("Buzzfeed Motion Pictures", "Congo-Brazzaville",
-                         "Hawaii", "Scotland", "Tibet")) == F)
+  filter(!(Country %in% c("Buzzfeed Motion Pictures", "Congo-Brazzaville",
+                         "Hawaii", "Scotland", "Tibet")))
 
 rm(all, avail, no.avail, GNI2014)
 
