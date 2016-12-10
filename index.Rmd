@@ -372,7 +372,7 @@ penis_long %>%
   }
 ```
 
-## Choropletz-Penismap, because why not?
+## Choropleth-Penismap <small>because why not?</small>
 
 A choropleth map displaying the worldwide distribution of the volume of erect penisses. Enjoy.
 
