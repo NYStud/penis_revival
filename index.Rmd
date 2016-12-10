@@ -387,11 +387,9 @@ highchart() %>%
   hc_add_series_map(worldgeojson, map, value = "volume_erect", joinBy = "iso3",
                     name = "Penis Volume (erect)") %>% 
   hc_title(text = "Erect Penis Volume by Country") %>% 
-  hc_tooltip(valueDecimals = 2, 
-             valuePrefix = "<b>", valueSuffix = " cm²</b>") %>% 
+  hc_tooltip(valueDecimals = 2, valuePrefix = "<b>", valueSuffix = " cm²</b>") %>% 
   hc_colorAxis(stops = idk, min = 80, max = 260) %>% 
   hc_legend(enabled = TRUE) %>% 
-  hc_add_theme(hc_theme_db()) %>% 
   hc_mapNavigation(enabled = TRUE)
 ```
 
