@@ -3,21 +3,21 @@ output_dir: "."
 navbar:
   title: "Penis Data"
   left:
-    - text: "Index"
-      icon: fa-home
+    - text: "Data"
+      icon: fa-info
       href: index.html
     - text: "Length"
-      icon: fa-list-ul
+      icon: fa-arrows-v
       href: length.html
     - text: "Circumference"
-      icon: fa-list-ul
+      icon: fa-arrows-h
       href: circumf.html
     - text: "Volume"
-      icon: fa-list-ul
+      icon: fa-arrows
       href: volume.html
   right:
     - text: "Tadaa, Data!"
-      icon: fa-file
+      icon: fa-star
       href: "https://tadaa-data.de"
     - text: "@tadaa_data"
       icon: fa-twitter
