@@ -8,6 +8,7 @@ library(DT)
 library(plotly)
 library(tadaatoolbox)
 library(highcharter)
+library(viridisLite)
 
 ## Get data
 # devtools::install_github("tadaadata/loldata")
