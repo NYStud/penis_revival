@@ -95,3 +95,27 @@ penis_long %>%
   }
 ```
 
+## By Length
+
+Is length a good predictor of circumference?
+
+```{r circumf_length}
+ggplot(data = penis_long, aes(x = length, y = circumf, color = state)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_smooth(method = lm, se = F) +
+  geom_point(size = 3, color = "black") +
+  geom_point(size = 2) +
+  scale_x_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                         labels = label_in)) +
+  scale_y_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                         labels = label_in)) +
+  scale_color_brewer(palette = "Paired") +
+  labs(title = "World Penis Data",
+       subtitle = "Length by Circumference",
+       x = "Length", y = "Circumference", color = "State",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+```
+
