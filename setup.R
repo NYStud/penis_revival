@@ -113,7 +113,7 @@ theme_set(theme_readthedown(bg = "#FFFFFF") +
                   axis.title.x = element_text(hjust = 0)))
 
 ## Plotting helpers
-plot_caption <- "https://public.tadaa-data.de/penis_revival"
+plot_caption <- "worldpenis.tadaa-data.de"
 
 label_in <- function(x) {paste0(x, "\"")}
 label_cm <- function(x) {paste0(x, "cm")}
