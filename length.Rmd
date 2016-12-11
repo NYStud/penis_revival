@@ -152,9 +152,15 @@ Seems fairly self-explanatory to suspect a relationship there, so let's see.
 ggplot(data = penis, aes(x = length_flaccid, y = length_erect)) +
   geom_smooth(method = lm, se = F, color = "gray") +
   geom_point(size = 2) +
+  scale_x_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+  scale_y_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
   labs(title = "World Penis Data",
        subtitle = "Flaccid by Erect Length",
-       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       x = "Flaccid Length", y = "Erect Length",
        caption = plot_caption)
 ```
 
@@ -171,10 +177,16 @@ penis %>%
   geom_smooth(method = lm, se = F, color = "gray") +
   geom_point(size = 3, color = "black") +
   geom_point(size = 2) +
+  scale_x_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+  scale_y_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
   scale_color_brewer(palette = "Paired") +
   labs(title = "World Penis Data",
        subtitle = "Flaccid by Erect Length (averaged by region)",
-       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       x = "Flaccid Length", y = "Erect Length",
        caption = plot_caption)
 ```
 
@@ -185,10 +197,16 @@ ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) 
   geom_smooth(method = lm, se = F, color = "gray") +
   geom_point(size = 3, color = "black") +
   geom_point(size = 2) +
+  scale_x_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
+  scale_y_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54, 
+                                           labels = label_in)) +
   scale_color_brewer(palette = "Paired") +
   labs(title = "World Penis Data",
        subtitle = "Flaccid by Erect Length",
-       x = "Flaccid Length (cm)", y = "Erect Length (cm)",
+       x = "Flaccid Length", y = "Erect Length",
        caption = plot_caption)
 ```
 
