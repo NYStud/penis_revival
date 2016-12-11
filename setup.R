@@ -10,6 +10,7 @@ library(tadaatoolbox)
 library(highcharter)
 library(viridisLite)
 library(scales)
+library(DT)
 
 ## Get data
 # devtools::install_github("tadaadata/loldata")

@@ -15,7 +15,7 @@ A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/
 
 Anyway, long story short: I don't like the look of my old analysis, because that was done in a time before I bothered with ggplot2-prettification. So now we try this again.
 
-## A Look at the Data
+## A Look at the Data Sources
 
 First up, let's see where the data is from in the first place.
 
@@ -63,3 +63,45 @@ loldata::penis %>%
 Seems like we have a few data points based on fairly small samples.  
 For the remainder of the analysis, we'll be excluding these data points with an N smaller than 50, because that's the arbitrary judgement of precision I just came up with.
 
+## The Raw Data
+
+If you're curious about the data itself, here's an embedded version of the dataset.  
+We arranged the data into two datasets, one *wide* and one *long*, but let's just look at the difference to explain that.
+
+```{r forstlook_table_wide}
+penis %>%
+  select(-Method, -N, -Source, everything(), Method, N, Source) %>%
+  datatable(style = "bootstrap", rownames = F, 
+            fillContainer = T, 
+            height = 100,
+            options = list(
+              bInfo = F,
+              paging = F,
+              autoWidth = TRUE,
+              sDom  = '<"top">lrt<"bottom">ip'), 
+            caption = "Penis Data (wide format)") %>%
+  formatRound(columns = c(4, 6:11), digits = 1)
+```
+
+As you can see, with have some more or less detailed geographical information, various measurements (and calculated measurements, as *volume* is calculcated by length and circumference, assuming a perfect cylinder, and the growth factor, which is simply erect divided by flaccid), details on the *method* the data was obtained (either self-reported or measured, and yes, we'll look at that in detail), and details of the data source (source study, N).  
+
+We also have two variables fro both flaccid and erect states, which is fine for comparing both states, but sometimes it can be inconvenient.  
+That's why we data-wrangled the above dataset in a long format, which excludes the *growth_* variables but adds a *state* variable:
+
+```{r forstlook_table_long}
+penis_long %>%
+  select(-Method, -N, -Source, everything(), Method, N, Source) %>%
+  datatable(style = "bootstrap", rownames = F, 
+            fillContainer = T, 
+            height = 100,
+            options = list(
+              bInfo = F,
+              paging = F,
+              autoWidth = TRUE,
+              sDom  = '<"top">lrt<"bottom">ip'), 
+            caption = "Penis Data (long format)") %>%
+  formatRound(columns = 3:5, digits = 1)
+```
+
+So this is what the data looks like.  
+As already mentioned, [this is the original source where we got the data from](http://www.everyoneweb.com/worldpenissize), in case anyone asks… again.
