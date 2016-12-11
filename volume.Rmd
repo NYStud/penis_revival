@@ -22,11 +22,14 @@ penis %>%
     ggplot(., aes(x = volume, fill = state, color = state)) +
     geom_histogram(binwidth = 5, alpha = .7, position = "dodge") +
     scale_x_continuous(breaks = seq(0, 500, 25), 
-                       minor_breaks = seq(0, 500, 5)) +
+                       minor_breaks = seq(0, 500, 5),
+                       labels = math_format(.x ~cm^3),
+                       sec.axis = sec_axis(trans = ~./2.54^3, 
+                                           labels = math_format(.x ~inch^3))) +
     scale_fill_brewer(palette = "Paired") +
     scale_color_brewer(palette = "Paired") +
     labs(title = "World Penis Data", subtitle = "Volume by State",
-         x = expression(paste("Volume ", (cm^3))), y = "Frequency", 
+         x = "Volume", y = "Frequency", 
          fill = "State", color = "State", caption = plot_caption) +
     theme(legend.position = "top")
   }
@@ -48,11 +51,14 @@ penis %>%
     geom_boxplot(alpha = .7) +
     coord_flip() +
     scale_y_continuous(breaks = seq(0, 500, 25), 
-                       minor_breaks = seq(0, 500, 5)) +
+                       minor_breaks = seq(0, 500, 5),
+                       labels = math_format(.x ~cm^3),
+                       sec.axis = sec_axis(trans = ~./2.54^3, 
+                                           labels = math_format(.x ~inch^3))) +
     scale_fill_brewer(palette = "Paired") +
     scale_color_brewer(palette = "Paired") +
     labs(title = "World Penis Data", subtitle = "Volume by State",
-         x = "", y = expression(paste("Volume ", (cm^3))), 
+         x = "", y = "Volume", 
          fill = "State", color = "State", caption = plot_caption) +
     theme(axis.text.y = element_text(size = rel(1.2)),
           legend.position = "top")
@@ -69,10 +75,13 @@ penis_long %>%
     stat_summary(fun.y = mean, geom = "point", size = 2) +
     coord_flip() +
     scale_y_continuous(breaks = seq(0, 500, 25),
-                       minor_breaks = seq(0, 500, 5)) +
+                       minor_breaks = seq(0, 500, 5),
+                       labels = math_format(.x ~cm^3),
+                       sec.axis = sec_axis(trans = ~./2.54^3, 
+                                           labels = math_format(.x ~inch^3))) +
     scale_color_brewer(palette = "Paired") +
     labs(title = "World Penis Data", subtitle = "Volume by State",
-         x = "", y = expression(paste("Volume ", (cm^3))),
+         x = "", y = "Volume",
          fill = "State", color = "State", caption = plot_caption) +
     theme(axis.text.y = element_text(size = rel(1.2)),
           legend.position = "top")
