@@ -3,8 +3,7 @@ title: "World Penis Data… Again"
 author: "Tobi & Lukas"
 date: "Rendered `r format(Sys.time(), '%F %H:%M')`"
 output: 
-  html_document:
-    toc: false
+  html_document
 ---
 
 ```{r setup_index, include=FALSE}
