@@ -108,7 +108,9 @@ rm(all, avail, no.avail, GNI2014)
 knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
                       fig.path = "assets/plots/")
 ## ggplot theme
-theme_set(theme_readthedown(bg = "#FFFFFF") + theme(plot.caption = element_text(hjust = 0)))
+theme_set(theme_readthedown(bg = "#FFFFFF") +
+            theme(plot.caption = element_text(hjust = 1),
+                  axis.title.x = element_text(hjust = 0)))
 
 ## Plotting helpers
 plot_caption <- "https://public.tadaa-data.de/penis_revival"
