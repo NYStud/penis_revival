@@ -115,5 +115,5 @@ theme_set(theme_readthedown(bg = "#FFFFFF") +
 ## Plotting helpers
 plot_caption <- "worldpenis.tadaa-data.de"
 
-label_in <- function(x) {paste0(x, "\"")}
-label_cm <- function(x) {paste0(x, "cm")}
+label_in <- function(x) {paste0(x, " inch")}
+label_cm <- function(x) {paste0(x, " cm")}

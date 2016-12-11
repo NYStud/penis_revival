@@ -82,9 +82,9 @@ penis %>%
   formatRound(columns = c(4, 6:11), digits = 1)
 ```
 
-As you can see, with have some more or less detailed geographical information, various measurements (and calculated measurements, as *volume* is calculcated by length and circumference, assuming a perfect cylinder, and the growth factor, which is simply erect divided by flaccid), details on the *method* the data was obtained (either self-reported or measured, and yes, we'll look at that in detail), and details of the data source (source study, N).  
+As you can see, with have some more or less detailed geographical information, various measurements (and calculated measurements, as *volume* is calculated by length and circumference, assuming a perfect cylinder, and the growth factor, which is simply *erect* divided by *flaccid*), details on the *method* the data was obtained (either self-reported or measured, and yes, we'll look at that in detail), and details of the data source (source study, N).  
 
-We also have two variables fro both flaccid and erect states, which is fine for comparing both states, but sometimes it can be inconvenient.  
+We also have two variables for both flaccid and erect states, which is fine for comparing both states, but sometimes it can be inconvenient.  
 That's why we data-wrangled the above dataset in a long format, which excludes the *growth_* variables but adds a *state* variable:
 
 ```{r forstlook_table_long}

@@ -113,7 +113,7 @@ ggplot(data = penis_long, aes(x = length, y = circumf, color = state)) +
                                          labels = label_in)) +
   scale_color_brewer(palette = "Paired") +
   labs(title = "World Penis Data",
-       subtitle = "Length by Circumference",
+       subtitle = "Circumference by Length",
        x = "Length", y = "Circumference", color = "State",
        caption = plot_caption) +
   theme(legend.position = "top")

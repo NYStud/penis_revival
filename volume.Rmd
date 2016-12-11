@@ -88,6 +88,30 @@ penis_long %>%
   }
 ```
 
+## By Length
+
+Since volume is calculated by circumference and length, the relationship between volume and length is pretty self-explanatory. We're still going to plot it, of course.
+
+```{r volume_state_length}
+ggplot(data = penis_long, aes(x = length, y = volume, color = state)) +
+  geom_smooth(method = lm, se = F, color = "gray") +
+  geom_smooth(method = lm, se = F) +
+  geom_point(size = 3, color = "black") +
+  geom_point(size = 2) +
+  scale_x_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                         labels = label_in)) +
+  scale_y_continuous(labels = math_format(.x ~cm^3),
+                     sec.axis = sec_axis(trans = ~./2.54^3,
+                                         labels = math_format(.x ~inch^3))) +
+  scale_color_brewer(palette = "Paired") +
+  labs(title = "World Penis Data",
+       subtitle = "Volume by Length",
+       x = "Length", y = "Volume", color = "State",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+```
+
 
 ## Choropleth-Penismap <small>because why not?</small>
 
