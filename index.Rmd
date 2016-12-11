@@ -87,7 +87,7 @@ As you can see, with have some more or less detailed geographical information, v
 We also have two variables for both flaccid and erect states, which is fine for comparing both states, but sometimes it can be inconvenient.  
 That's why we data-wrangled the above dataset in a long format, which excludes the *growth_* variables but adds a *state* variable:
 
-```{r forstlook_table_long}
+```{r firstlook_table_long}
 penis_long %>%
   select(-Method, -N, -Source, everything(), Method, N, Source) %>%
   datatable(style = "bootstrap", rownames = F, 
