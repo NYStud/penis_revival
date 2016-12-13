@@ -255,3 +255,87 @@ plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired",
          showlegend = F,
          autosize = T)
 ```
+
+## Method
+
+Probably the most interesting aspect of our data is the column about how the data was obtained, i.e. if it was self-reported or measured.  
+The hypothesis in the back of our heads is probably pretty obvious, right? Self-reported values *must* be slightly bigger than measured values.  
+Let's see if that's true.
+
+```{r length_method}
+
+ggplot(penis_long) +
+  geom_histogram(aes(x = length, fill = Method, color = Method),
+                 binwidth = .5, alpha = .7, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 100, 2),
+                     minor_breaks = seq(0, 100, .5),
+                     labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                         labels = label_in)) +
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2") +
+  labs(title = "World Penis Data", subtitle = "Length by Method",
+       x = "Length", y = "Frequency",
+       fill = "Method", color = "Method",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+```
+
+### Method by State
+
+```{r length_method_state}
+ggplot(penis_long) +
+  geom_histogram(aes(x = length, fill = Method, color = Method),
+                 binwidth = .5, alpha = .7, position = "dodge") +
+  facet_wrap(~state, scales = "free_x") +
+  scale_x_continuous(breaks = seq(0, 100, 2),
+                     minor_breaks = seq(0, 100, .5),
+                     labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                         labels = label_in)) +
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2") +
+  labs(title = "World Penis Data", subtitle = "Length by Method and State",
+       x = "Length", y = "Frequency",
+       fill = "Method", color = "Method",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+  
+```
+
+### Method by Region and State
+
+```{r length_method_regions}
+ggplot(data = penis_long, aes(x = reorder(Region, length), y = length, color = Method)) +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar") +
+  stat_summary(fun.y = mean, geom = "point", size = 1) +
+  coord_flip() +
+  facet_wrap(~state, ncol = 2) +
+  scale_y_continuous(breaks = seq(0, 100, 2),
+                     minor_breaks = seq(0, 100, .5),
+                     labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                         labels = label_in)) +
+  scale_color_brewer(palette = "Set2") +
+  labs(title = "World Penis Data", subtitle = "Length by Method, Region & State",
+       x = "", y = "Length",
+       fill = "Method", color = "Method",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+```
+
+So all that seems to point in the direction we expected. Let's do a t-test for good measure.  
+We'll use *length* (both states) and *method* as variables.
+
+```{r length_method_t_test_method}
+tadaa_t.test(penis_long, length, Method, print = "markdown")
+```
+
+
+Let's also try an ANOVA of *length* on *method* and *state*, just for giggles:
+
+```{r length_method_anova}
+tadaa_aov(length ~ Method + state, data = penis_long, print = "markdown")
+```
+
+So… yeah. Erect vs. flaccid obviously has the biggest effect, but the method definitely plays a role there.

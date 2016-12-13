@@ -112,7 +112,8 @@ knitr::opts_chunk$set(echo = T, warning = F, message = F, fig.align = "center",
 ## ggplot theme
 theme_set(theme_readthedown(bg = "#FFFFFF") +
             theme(plot.caption = element_text(hjust = 1, vjust = 0, size = rel(.7)),
-                  axis.title.x = element_text(hjust = 0)))
+                  axis.title.x = element_text(hjust = 0),
+                  strip.placement = "outside"))
 
 ## Plotting helpers
 plot_caption <- "worldpenis.tadaa-data.de"
