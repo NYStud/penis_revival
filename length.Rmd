@@ -222,13 +222,17 @@ Let's do some math:
 ```{r corr_length_states_lm}
 model <- lm(length_erect ~ length_flaccid, data = penis)
 
-knitr::kable(tidy(model))
-
-knitr::kable(glance(model))
+tab1 <- sjPlot::sjt.lm(model, 
+                       pred.labels = c("Length (Flaccid)"), 
+                       depvar.labels = c("Length (Erect)"), 
+                       show.se = T, 
+                       use.viewer = F, no.output = T)
 ```
 
+`r tab1$knitr`
 
-So… yeah. There's a perfectly valid linear relationship with a nice big $R^2$ and it basically tells us that the expected size of an erect penis will be roughly 1.4 times the size of the flaccid penis.  
+<br \>
+So… yeah. There's a perfectly valid linear relationship with a nice big $R^2$ and it basically tells us that the expected size of an erect penis will be an increase of roughly 1.4 cm of the flaccid penis.  
 Seems… realistic, I guess?
 
 Lastly, here's a version of the above plot for you to get your hands on:
