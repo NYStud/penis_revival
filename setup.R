@@ -68,6 +68,8 @@ penis_long <- loldata::penis %>%
   }
 
 # ISO3 Codes for countries
+if (!("treemap" %in% installed.packages())) install.packages("treemap")
+
 data("GNI2014", package = "treemap")
 
 no.avail <- penis %>% filter(!(Country %in% GNI2014$country)) %>% select(Country)
