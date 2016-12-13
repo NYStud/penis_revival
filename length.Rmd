@@ -142,9 +142,8 @@ ggplot(data = penis, aes(x = reorder(Region, growth_length), y = growth_length))
        caption = plot_caption)
 ```
 
-## Correlations
 
-### Erect Length and Flaccid Length
+## Erect vs. Flaccid
 
 Seems fairly self-explanatory to suspect a relationship there, so let's see.
 
@@ -167,6 +166,8 @@ ggplot(data = penis, aes(x = length_flaccid, y = length_erect)) +
 
 Well that looks like a pretty decent linear relationship with some other effect we haven't identified yet.  
 Since there's only so much data in this dataset, the only thing we can really do is to look at the effect of different regions.
+
+### Averaged by Region
 
 ```{r corr_length_states_regions_mean}
 penis %>% 
@@ -192,6 +193,8 @@ penis %>%
 
 That seems… reasonably informative. Let's to that again without the averaging though.
 
+### by Region
+
 ```{r corr_length_states_regions}
 ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) +
   geom_smooth(method = lm, se = F, color = "gray") +
@@ -210,6 +213,8 @@ ggplot(data = penis, aes(x = length_flaccid, y = length_erect, color = Region)) 
        caption = plot_caption)
 ```
 
+
+### Correlation
 
 Well, we've seen enough of that I guess.  
 Let's do some math:
@@ -242,7 +247,7 @@ plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired")
          xaxis = list(title = "Flaccid Length (cm)"), 
          yaxis = list(title = "Erect Length (cm)"),
          paper_bgcolor = "#ffffff", plot_bgcolor = "#ffffff", hovermode = "closest",
-         showlegend = F)
-
-rm(text)
+         showlegend = F,
+         autosize = T, 
+         width = 768)
 ```
