@@ -239,7 +239,8 @@ text <- ~paste0("<b>", Region, "</b>",
                "<br /><b>N</b> = ", N,
                "<br /><b>Source:</b> ", Source)
 
-plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired") %>%
+plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired",
+        width = 768) %>%
   add_markers(color = I("black"), size = I(12), hoverinfo = "none") %>%
   add_markers(color = ~Region, hoverinfo = "text", size = I(10),
               text = text) %>%
@@ -248,6 +249,5 @@ plot_ly(data = penis, x = ~length_flaccid, y = ~length_erect, colors = "Paired")
          yaxis = list(title = "Erect Length (cm)"),
          paper_bgcolor = "#ffffff", plot_bgcolor = "#ffffff", hovermode = "closest",
          showlegend = F,
-         autosize = T, 
-         width = 768)
+         autosize = T)
 ```
