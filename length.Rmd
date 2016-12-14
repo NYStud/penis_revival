@@ -351,3 +351,40 @@ tadaa_aov(length ~ Method + state, data = penis_long, print = "markdown")
 ```
 
 So… yeah. Erect vs. flaccid obviously has the biggest effect, but the method definitely plays a role there.
+
+Also, here's an interaction plot of the means, just because. 
+
+```{r length_method_anova_int}
+penis_means <- penis_long %>%
+  group_by(Method, state) %>%
+  summarize(mean = mean(length))
+
+ggplot(data = penis_means, aes(x = Method, y = mean, color = state)) +
+  geom_point(size = 2) +
+  geom_line(aes(group = state), size = 1.5) +
+  scale_color_brewer(palette = "Paired") +
+  scale_y_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                        labels = label_in)) +
+  labs(title = "World Penis Data", subtitle = "Length by Method & State",
+       x = "", y = expression(paste("Length (", bar(x), ")")),
+       color = "State",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+
+ggplot(data = penis_means, aes(x = state, y = mean, color = Method)) +
+  geom_point(size = 2) +
+  geom_line(aes(group = Method), size = 1.5) +
+  scale_color_brewer(palette = "Set2") +
+  scale_y_continuous(labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                        labels = label_in)) +
+  labs(title = "World Penis Data", subtitle = "Length by State & Method",
+       x = "", y = expression(paste("Length (", bar(x), ")")),
+       color = "State",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+
+
+```
+
