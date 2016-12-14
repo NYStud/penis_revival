@@ -141,3 +141,17 @@ penis %>%
 
 So this is what the data looks like.  
 As already mentioned, [this is the original source where we got the data from](http://www.everyoneweb.com/worldpenissize), in case anyone asks… again.
+
+## The Data, for your Convenience
+
+And lastly, here's a full frame version of the dataset, searchable, filterable and everything:
+
+```{r firstlook_fulldata}
+penis %>%
+  select(-Method, -N, -Source, everything(), Method, N, Source) %>%
+  datatable(style = "bootstrap", rownames = F, 
+            options = list(height = 200),
+            caption = "Penis Data (wide format, full frame)") %>%
+  formatRound(columns = c(4, 6:11), digits = 2)
+```
+
