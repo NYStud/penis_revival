@@ -315,6 +315,31 @@ ggplot(penis_long, aes(x = length, fill = Method, color = Method)) +
   
 ```
 
+### Scatterplot
+
+```{r length_method_state_scatter}
+ggplot(penis, aes(x = length_flaccid, y = length_erect, color = Method)) +
+  geom_point(size = 1.5) +
+  scale_x_continuous(breaks = seq(0, 100, 1),
+                     minor_breaks = seq(0, 100, .5),
+                     labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                         labels = label_in)) +
+  scale_y_continuous(breaks = seq(0, 100, 2),
+                     minor_breaks = seq(0, 100, .5),
+                     labels = label_cm,
+                     sec.axis = sec_axis(trans = ~./2.54,
+                                         labels = label_in)) +
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2") +
+  labs(title = "World Penis Data", subtitle = "Length by Method",
+       x = "Flaccid Length", y = "Erect Length",
+       fill = "Method", color = "Method",
+       caption = plot_caption) +
+  theme(legend.position = "top")
+```
+
+
 ### Method by Region and State
 
 ```{r length_method_regions}
