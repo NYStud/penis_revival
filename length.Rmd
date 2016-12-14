@@ -263,9 +263,16 @@ The hypothesis in the back of our heads is probably pretty obvious, right? Self-
 Let's see if that's true.
 
 ```{r length_method}
+penis_means <- penis_long %>%
+  group_by(Method) %>%
+  summarize(mean = mean(length))
+
+
 ggplot(penis_long, aes(x = length, fill = Method, color = Method)) +
   geom_density(aes(y = ..count..), alpha = .3) +
   geom_histogram(binwidth = .5, alpha = .8, position = "dodge") +
+  geom_vline(data = penis_means, aes(xintercept = mean, color = Method),
+             linetype = "dotted", size = 1.5) +
   scale_x_continuous(breaks = seq(0, 100, 2),
                      minor_breaks = seq(0, 100, .5),
                      labels = label_cm,
@@ -283,9 +290,15 @@ ggplot(penis_long, aes(x = length, fill = Method, color = Method)) +
 ### Method by State
 
 ```{r length_method_state}
+penis_means <- penis_long %>%
+  group_by(Method, state) %>%
+  summarize(mean = mean(length))
+
 ggplot(penis_long, aes(x = length, fill = Method, color = Method)) +
   geom_density(aes(y = ..count..), alpha = .3) +
   geom_histogram(binwidth = .5, alpha = .8, position = "dodge") +
+  geom_vline(data = penis_means, aes(xintercept = mean, color = Method),
+             linetype = "dotted", size = 1.5) +
   facet_wrap(~state, scales = "free_x") +
   scale_x_continuous(breaks = seq(0, 100, 2),
                      minor_breaks = seq(0, 100, .5),
