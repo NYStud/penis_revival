@@ -37,4 +37,5 @@ output:
     lib_dir: "assets"
     self_contained: no
     include:
+      in_header: "piwik.html"
       after_body: "_footer.html"
