@@ -45,16 +45,26 @@ loldata::penis %>%
 As we can see, our data seems to be most reliable for Europe, South America, multiple Asias and Africa.  
 Oddly enough, we have relatively little data on North America, and our data on the Pacific Islands and Central Asia should probably be taken with a grain of salt. However, I have no idea what an appropriate sample size for data like this would be, so I'm mainly eyeballing and trying to sound knowledgable here.
 
-Let's look at the N of the individual datapoints (because every row in our dataset represents the data of a specific study). We'll exclude rows with an N over 200, because that's probably a sufficiently large sample anyway.
+Let's look at the N of the individual datapoints (because every row in our dataset represents the data of a specific study). 
+We'll first look at the overall distribution, and then look at studies with a reported N smaller than 200, just to see how we're doing in that area.
 
 ```{r firstlook_n}
 loldata::penis %>%
-  filter(N < 200) %>%
+  ggplot(data = ., aes(x = N)) +
+  geom_histogram(binwidth = 100, alpha = .7) +
+  scale_x_continuous(breaks = seq(0, 20000, 1000),
+                     minor_breaks = seq(0, 20000, 500)) +
+  labs(title = "World Penis Data", subtitle = "Reported N per Study",
+       x = "Reported N", y = "Frequency", caption = plot_caption)
+
+loldata::penis %>%
+  filter(N <= 200) %>%
   ggplot(data = ., aes(x = N)) +
   geom_histogram(binwidth = 5, alpha = .7) +
   scale_x_continuous(breaks = seq(0, 200, 10),
                      minor_breaks = seq(0, 200, 5)) +
-  labs(title = "World Penis Data", subtitle = "Reported N per Study",
+  labs(title = "World Penis Data", 
+       subtitle = expression(~Reported ~N ~per ~Study ~(N<=200)),
        x = "Reported N", y = "Frequency", caption = plot_caption)
 ```
 
@@ -111,14 +121,14 @@ penis %>%
   gather(Variable, value, contains("length"), 
          contains("circumf"), contains("volume"), contains("growth")) %>%
   group_by(Variable) %>%
-  summarize(N = n(),
-            min = min(value),
-            q1 = quantile(value, .25),
+  summarize(N      = n(),
+            min    = min(value),
+            q1     = quantile(value, .25),
             median = median(value),
-            mean = mean(value),
-            q3 = quantile(value, .75),
-            max = max(value),
-            sd = sd(value)) %>%
+            mean   = mean(value),
+            q3     = quantile(value, .75),
+            max    = max(value),
+            sd     = sd(value)) %>%
   datatable(style = "bootstrap", rownames = F, 
             options = list(
               bInfo = F,
