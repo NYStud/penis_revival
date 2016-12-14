@@ -102,5 +102,32 @@ penis_long %>%
   formatRound(columns = 3:5, digits = 1)
 ```
 
+## Some Basic Descriptives
+
+All units in metric (either $cm$ or $cm^3$).
+
+```{r firstlook_descriptives}
+penis %>% 
+  gather(Variable, value, contains("length"), 
+         contains("circumf"), contains("volume"), contains("growth")) %>%
+  group_by(Variable) %>%
+  summarize(N = n(),
+            min = min(value),
+            q1 = quantile(value, .25),
+            median = median(value),
+            mean = mean(value),
+            q3 = quantile(value, .75),
+            max = max(value),
+            sd = sd(value)) %>%
+  datatable(style = "bootstrap", rownames = F, 
+            options = list(
+              bInfo = F,
+              paging = F,
+              sDom  = '<"top">lrt<"bottom">ip'), 
+            caption = "Penis Data: Descriptives of Numerical Variables") %>%
+  formatRound(columns = 3:9, digits = 2)
+```
+
+
 So this is what the data looks like.  
 As already mentioned, [this is the original source where we got the data from](http://www.everyoneweb.com/worldpenissize), in case anyone asks… again.

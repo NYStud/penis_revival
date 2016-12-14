@@ -336,6 +336,8 @@ ggplot(data = penis_long, aes(x = reorder(Region, length), y = length, color = M
   theme(legend.position = "top")
 ```
 
+### Method: Tests
+
 So all that seems to point in the direction we expected. Let's do a t-test for good measure.  
 We'll use *length* (both states) and *method* as variables.
 
