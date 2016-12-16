@@ -363,6 +363,8 @@ ggplot(data = penis_long, aes(x = reorder(Region, length), y = length, color = M
 
 ### Method: Tests
 
+#### t-Test
+
 So all that seems to point in the direction we expected. Let's do a t-test for good measure.  
 We'll use *length* (both states) and *method* as variables.
 
@@ -412,6 +414,45 @@ ggplot(data = penis_means, aes(x = state, y = mean, color = Method)) +
        caption = plot_caption) +
   theme(legend.position = "top")
 ```
+
+#### Linear Relationship
+
+So now that we know the *method of measurement* has a sizeable effect on the reported penis *length*, how do we know the method is a good _predictor_? By having a look at the descriptives from earlier we can see quite a few huge differences regarding the *regions*. Let's start with looking at the linear relationship between *erect penis length* and *method*:
+
+```{r length_method_lm1}
+lm1 <- lm(length_erect ~ Method, penis)
+
+sj.m1 <- sjPlot::sjt.lm(lm1, depvar.labels = "Penis length (erect)",
+                        show.se = T, use.viewer = F, no.output = T)
+```
+
+`r sj.m1$knitr`
+
+<br \>
+A meager $R^2$ of just `r round(summary(lm1)$adj.r.squared, 2)` ain't too much, so how do we do when also looking at the *regions*?
+
+```{r length_method_lm2}
+lm2 <- lm(length_erect ~ Method + Region, penis)
+
+sj.m2 <- sjPlot::sjt.lm(lm2, depvar.labels = "Penis length (erect)",
+                        show.se = T, use.viewer = F, no.output = T)
+```
+
+`r sj.m2$knitr`
+
+<br \>
+An $R^2$ of whooping `r round(summary(lm2)$adj.r.squared, 2)`! Now that's something to predict with. What this tells us is the following: if you want get an estimate of a man's junk size, you shouldn't hand him a measuring tape but just ask where he's from. Except for *Australia*, *Central* and *South America*. Or something along those lines. Maybe.
+
+#### Analysis Of Variance
+
+_"But dear Mr. Analyst"_, you might say, _"how on earth are you going to justify the assumption of a linear relationship?"_ And you're absolutely right, maybe that's not quite the way to go. Maybe we should just do an _ANOVA_ and look at the effect sizes:
+
+```{r length_method_region_anova}
+tadaa_aov(length_erect ~ Method + Region, data = penis, print = "markdown")
+```
+
+And there you go: while the *method* still makes a significant difference, the effect of the *region* seems way more important.
+
 
 ## Choropleth-Penismap
 
