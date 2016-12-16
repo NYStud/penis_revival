@@ -14,6 +14,12 @@ A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/
 
 Anyway, long story short: I don't like the look of my old analysis, because that was done in a time before I bothered with ggplot2-prettification. So now we try this again.
 
+### Disclaimer 
+
+Since a part of this analysis has gone slightly viral and many people seem to be misinterpreting the visualizations, we'd like to re-emphasize that everything here is based on a collection of data **we did not collect ourselves**, also we **do not have access to individual measurements**, because our source data **is only a collection of average measurements** and the dataset only contains **one observation per country**. Also, **some of these studies are based on measured and some on self-reported** data. There is no "measured vs. self-reported" data-point. We only compared the averages of studies with each method to each other. Again, the original data we have can be viewed further down this page and is taken from <http://www.everyoneweb.com/worldpenissize>.  
+
+Also, we do not claim that this is a rigorous scientific study or something. [There's already research to look at](http://onlinelibrary.wiley.com/doi/10.1111/bju.13010/full).
+
 ## A Look at the Data Sources
 
 First up, let's see where the data is from in the first place.
