@@ -120,3 +120,10 @@ plot_caption <- "worldpenis.tadaa-data.de"
 
 label_in <- function(x) {paste0(x, " inch")}
 label_cm <- function(x) {paste0(x, " cm")}
+
+## Highcharter map & colors
+data(worldgeojson, package = "highcharter")
+
+idk <- data.frame(q = c(0, exp(1:2)/exp(2)),
+                  c = rev(substring(viridis(2+1, option = "D"), 0, 7))) %>%
+  list_parse2()
