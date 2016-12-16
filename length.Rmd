@@ -411,7 +411,20 @@ ggplot(data = penis_means, aes(x = state, y = mean, color = Method)) +
        color = "State",
        caption = plot_caption) +
   theme(legend.position = "top")
-
-
 ```
 
+## Choropleth-Penismap
+
+A worldmapwise look at penile length distribution.
+
+```{r choropenis_length_erect}
+highchart() %>% 
+  hc_add_series_map(worldgeojson, map, value = "length_erect", joinBy = "iso3",
+                    name = "Penis Length (erect)") %>% 
+  hc_title(text = "Erect Penis Length by Country") %>% 
+  hc_tooltip(valueDecimals = 2, valuePrefix = "<b>", valueSuffix = " cm</b>", 
+             useHTML = TRUE) %>% 
+  hc_colorAxis(stops = idk, min = 10, max = 17.5) %>% 
+  hc_legend(enabled = TRUE) %>% 
+  hc_mapNavigation(enabled = TRUE)
+```

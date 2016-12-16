@@ -119,3 +119,18 @@ ggplot(data = penis_long, aes(x = length, y = circumf, color = state)) +
   theme(legend.position = "top")
 ```
 
+## Choropleth-Penismap
+
+A worldmapwise look at penile circumference distribution.
+
+```{r choropenis_circumf_erect}
+highchart() %>% 
+  hc_add_series_map(worldgeojson, map, value = "circumf_erect", joinBy = "iso3",
+                    name = "Penis Circumference (erect)") %>% 
+  hc_title(text = "Erect Penis Circumference by Country") %>% 
+  hc_tooltip(valueDecimals = 2, valuePrefix = "<b>", valueSuffix = " cm</b>", 
+             useHTML = TRUE) %>% 
+  hc_colorAxis(stops = idk, min = 10, max = 14) %>% 
+  hc_legend(enabled = TRUE) %>% 
+  hc_mapNavigation(enabled = TRUE)
+```
