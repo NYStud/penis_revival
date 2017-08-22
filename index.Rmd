@@ -10,7 +10,7 @@ output:
 source("setup.R")
 ```
 
-A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/post/2015/08/i-analyzed-some-world-penis-data---because-why-not/), because let's face it, the inclined data enthusiast can't resist a dataset like [this](http://www.everyoneweb.com/worldpenissize). Sadly, my old code to scrape the table on that page doesn't work anymore, and I have not figured out a new way to get the data, so I have to rely on the data I saved the last time and included in the [tadaadata/loldata](https://github.com/tadaadata/loldata) package.  
+A while ago, [I analyzed the World Penis Data](https://blog.jemu.name/2015/08/i-analyzed-some-world-penis-data---because-why-not/), because let's face it, the inclined data enthusiast can't resist a dataset like [this](http://www.everyoneweb.com/worldpenissize), which I found ages ago somewhere on reddit. In the meantime the original page went offline, so there's no other source of the original data as far as I know. Fortunately I saved the old dataset, which now lives on in our [tadaadata/loldata](https://github.com/tadaadata/loldata) R-package and on [this project on data.world](https://data.world/jemus42/world-penis-data), so if you want to play around with the data yourself, you're all set.
 
 Anyway, long story short: I don't like the look of my old analysis, because that was done in a time before I bothered with ggplot2-prettification. So now we try this again.
 
